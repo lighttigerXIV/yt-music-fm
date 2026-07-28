@@ -6,8 +6,6 @@
 
   <div>
     <img src="./readme-images/ss_one.png" height="256">
-    <img src="./readme-images/ss_two.png" height="256">
-    <img src="./readme-images/lastfm.png" height="128">
   </div>
 </div>
 
