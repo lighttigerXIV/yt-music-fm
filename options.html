@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="app.css">
+    <link rel="icon" type="image/png" href="icons/icon128.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>YT Music FM</title>
+</head>
+
+<body>
+    <h1>Settings</h1>
+
+    <h3>Last FM Connection</h3>
+
+    <div id="no-login-div" hidden>
+        <p id="connect-as">The extensions requires you to connect to Last FM.</p>
+        <button id="authorize-button">Connect Last FM</button>
+    </div>
+
+    <div id="logged-in-div" hidden>
+        <p id="connect-as">You are connected as <b><span id="username"></span></b></p>
+        <button id="unauthorize-button">Disconnect</button>
+    </div>
+
+    <script src="env.js"></script>
+    <script src="lastfm.js"></script>
+    <script type="module" src="options.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="app.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="no-session-page" hidden>
+        <img src="icons/logo.svg" height="64" alt="Logo">
+        <p>You are not connected to Last FM</p>
+        <button id="open-settings">Open Settings</button>
+    </div>
+
+    <div id="not-in-youtube-music-page" hidden>
+        <img src="icons/logo.svg" height="64" alt="Logo">
+        <p>To see the current track open the extension in Youtube Music</p>
+    </div>
+
+    <div id="no-track-page" hidden>
+        <img src="icons/logo.svg" height="64" alt="Logo">
+        <p>No track is playing right now</p>
+    </div>
+
+    <div id="track-page" hidden>
+        <div id="track-header">
+            <button id="settings-button">
+                <img src="icons/settings.svg" height="32">
+            </button>
+            <div id="scrobble-header">
+                <p id="scrobble-state">Scrobbling</p>
+
+                <button id="scrobble-button">
+                    <img id="scrobble-icon" src="icons/scrobbling.svg" height="32">
+                </button>
+            </div>
+        </div>
+        <img id="artwork">
+        <p id="title">Track Title</p>
+        <p id="album-artist">Track Artist - Track Album</p>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

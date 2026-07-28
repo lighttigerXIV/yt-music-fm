@@ -1,0 +1,52 @@
+{
+    "manifest_version": 3,
+    "name": "YouTube Music FM",
+    "version": "0.0.2",
+    "icons": {
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "yt-music-fm@afonseca.dev",
+            "data_collection_permissions": {
+                "required": [
+                    "authenticationInfo"
+                ],
+                "optional": []
+            }
+        }
+    },
+    "options_page": "options.html",
+    "permissions": [
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://music.youtube.com/*"
+            ],
+            "js": [
+                "env.js",
+                "lastfm.js",
+                "session.js",
+                "track.js",
+                "content.js"
+            ]
+        }
+    ],
+    "background": {
+        "scripts": [
+            "env.js",
+            "lastfm.js",
+            "session.js",
+            "background.js"
+        ]
+    },
+    "host_permissions": [
+        "https://ws.audioscrobbler.com/*"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}

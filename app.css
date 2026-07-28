@@ -1,0 +1,94 @@
+:root {
+    --n1: #141414;
+    --t0: #F2F2F2;
+    --red: #FF7272;
+}
+
+img {
+    border: none;
+    outline: none;
+}
+
+body {
+    padding: 16px;
+    background-color: var(--n1);
+    color: var(--t0);
+    font-family: "Inter", sans-serif;
+}
+
+#no-session-page,
+#not-in-youtube-music-page,
+#no-track-page,
+#track-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+}
+
+#no-session-page[hidden],
+#not-in-youtube-music-page[hidden],
+#no-track-page[hidden],
+#track-page[hidden],
+#track-header[hidden],
+#scroble-header[hidden] {
+    display: none;
+}
+
+button {
+    padding: 12px;
+    border-radius: 999px;
+    outline: none;
+    border: none;
+    background-color: var(--red);
+    cursor: pointer;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#artwork {
+    outline: none;
+    border-radius: 8px;
+    width: 256px;
+}
+
+p {
+    margin: 0;
+}
+
+#title {
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+#track-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+#scrobble-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#scrobble-button , #settings-button{
+    background: none;
+    padding: 0px;
+    margin-left: 8px;
+}
+
+#unauthorize-button, #authorize-button{
+    margin-top: 8px;
+}
