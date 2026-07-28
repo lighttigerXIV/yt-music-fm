@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "YouTube Music FM",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "An extension to sync Last FM and YouTube Music",
     "icons": {
         "48": "icons/icon48.png",
