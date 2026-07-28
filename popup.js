@@ -38,6 +38,7 @@ async function loadSession() {
 
     if (!loggedIn) {
         noSessionPage.hidden = false;
+        return;
     }
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });

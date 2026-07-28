@@ -40,30 +40,32 @@ async function authorizeUser() {
 
     window.open(`https://www.last.fm/api/auth/?api_key=${API_KEY}&token=${token}`, "_blank");
 
-    await new Promise(resolve => setTimeout(resolve, 14000));
+    for (let attempt = 1; attempt <= 6; attempt++) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
-    const params = {
-        method: "auth.getSession",
-        api_key: API_KEY,
-        token: token
+        const params = {
+            method: "auth.getSession",
+            api_key: API_KEY,
+            token: token
+        }
+
+        const apiSig = md5(buildSignatureBase(params, SHARED_SECRET))
+
+        url = `https://ws.audioscrobbler.com/2.0/?method=auth.getSession&api_key=${API_KEY}&token=${token}&api_sig=${apiSig}&format=json`;
+        response = await fetch(url);
+        data = await response.json();
+
+        if (!data.session) {
+            continue;
+        }
+
+        token = data.session.key;
+        let username = data.session.name;
+
+        await chrome.storage.local.set({ token: token });
+        await chrome.storage.local.set({ username: username });
+
+        init();
+        break;
     }
-
-    const apiSig = md5(buildSignatureBase(params, SHARED_SECRET))
-
-    url = `https://ws.audioscrobbler.com/2.0/?method=auth.getSession&api_key=${API_KEY}&token=${token}&api_sig=${apiSig}&format=json`;
-    response = await fetch(url);
-    data = await response.json();
-
-    if (!data.session) {
-        console.log("User did not authorize connection");
-        return;
-    }
-
-    token = data.session.key;
-    let username = data.session.name;
-
-    await chrome.storage.local.set({ token: token });
-    await chrome.storage.local.set({ username: username });
-
-    init();
 }
