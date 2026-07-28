@@ -21,7 +21,8 @@
     "options_page": "options.html",
     "permissions": [
         "storage",
-        "activeTab"
+        "activeTab",
+        "storage"
     ],
     "content_scripts": [
         {
@@ -38,12 +39,7 @@
         }
     ],
     "background": {
-        "scripts": [
-            "env.js",
-            "lastfm.js",
-            "session.js",
-            "background.js"
-        ]
+        "service_worker": "background.js"
     },
     "host_permissions": [
         "https://ws.audioscrobbler.com/*"
