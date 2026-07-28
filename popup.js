@@ -58,7 +58,7 @@ async function loadSession() {
 
         document.getElementById("artwork").src = response.artwork;
         document.getElementById("title").textContent = response.title;
-        document.getElementById("album-artist").textContent = `${response.artist} - ${response.album}`;
+        document.getElementById("album-artist").textContent = response.album === "" ? response.artist : `${response.artist} - ${response.album}`;
     });
 }
 
