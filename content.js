@@ -27,7 +27,7 @@ const barObserver = new MutationObserver(async () => {
     const metaAlbum = metadata.album;
     const metaArtwork = metadata.artwork[metadata.artwork.length - 1].src;
 
-    if (metaTitle === "" || metaArtist === "" || metaAlbum === "") { return; }
+    if (metaTitle === "" || metaArtist === "") { return; }
 
     const domTime = document.querySelector("ytmusic-player-bar .time-info")?.textContent.trim();
 
