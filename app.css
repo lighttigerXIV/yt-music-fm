@@ -26,6 +26,7 @@ body {
     background-color: var(--n1);
     color: var(--t0);
     font-family: "Inter", sans-serif;
+    min-width: 300px;
 }
 
 #no-session-page,

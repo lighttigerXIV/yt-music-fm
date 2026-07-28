@@ -1,9 +1,13 @@
+if (typeof importScripts === 'function') {
+    importScripts("env.js", "lastfm.js", "session.js");
+}
 
-chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "nowPlaying") {
-        await setNowPlaying(message.track);
+        setNowPlaying(message.track).catch(console.error);
     }
+    
     if (message.action === "scrobble") {
-        await scrobble(message.track);
+        scrobble(message.track).catch(console.error);
     }
 });

@@ -9,7 +9,7 @@ document.getElementById("settings-button").addEventListener("click", () => {
 });
 
 document.getElementById("scrobble-button").addEventListener("click", async () => {
-    let { activateScrobble } = await chrome.storage.local.get("activateScrobble");
+    let { activateScrobble } = await chrome.storage.local.get(["activateScrobble"]);
     activateScrobble = activateScrobble !== false;
 
     if (!activateScrobble) {
@@ -49,6 +49,12 @@ async function loadSession() {
     }
 
     chrome.tabs.sendMessage(tab.id, { action: "getCurrentTrack" }, (response) => {
+        if (chrome.runtime.lastError || !response) {
+            console.log("Erro:", chrome.runtime.lastError?.message);
+            noTrackPage.hidden = false;
+            return;
+        }
+
         if (response.title === "") {
             noTrackPage.hidden = false;
             return;
@@ -63,7 +69,7 @@ async function loadSession() {
 }
 
 async function loadScrobble() {
-    let { activateScrobble } = await chrome.storage.local.get("activateScrobble");
+    let { activateScrobble } = await chrome.storage.local.get(["activateScrobble"]);
     activateScrobble = activateScrobble !== false;
 
     const scrobbleIcon = document.getElementById("scrobble-icon");

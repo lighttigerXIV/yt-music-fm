@@ -2,6 +2,7 @@ let track = new Track("", "", "", "", false, undefined);
 let session = new Session(undefined, undefined);
 let scrobbled = false;
 let nowPlayed = false;
+let activateScrobble = true;
 
 async function loadSession() {
     const { token, username } = await chrome.storage.local.get(["token", "username"]);
@@ -11,10 +12,17 @@ async function loadSession() {
 
 loadSession();
 
-const barObserver = new MutationObserver(async () => {
-    let { activateScrobble } = await chrome.storage.local.get("activateScrobble");
-    activateScrobble = activateScrobble !== false;
+chrome.storage.local.get(["activateScrobble"]).then((result) => {
+    activateScrobble = result.activateScrobble !== false;
+});
 
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local' && changes.activateScrobble) {
+        activateScrobble = changes.activateScrobble.newValue;
+    }
+});
+
+const barObserver = new MutationObserver(async () => {
     if (!session.loggedIn) { return; }
 
     const metadata = navigator.mediaSession.metadata;
