@@ -1,107 +1,134 @@
 :root {
-    --n1: #141414;
-    --t0: #F2F2F2;
-    --red: #FF7272;
+	--n1: #141414;
+	--n3: #1F1F1F;
+	--t0: #F2F2F2;
+	--red: #FF7272;
+	--orange: #FFAD72;
+	--yellow: #FFDE72;
+	--green: #A8FF72;
+}
+
+body {
+	font-family: "Inter";
+}
+
+* {
+	margin: 0px;
 }
 
 a,
 a:visited,
 a:hover,
-a:active{
-    color: inherit;
-    text-decoration: none;
+a:active {
+	color: inherit;
+	text-decoration: none;
 }
 
-a:hover{
-    text-decoration: underline;
+a:hover {
+	text-decoration: underline;
 }
 
-img {
-    border: none;
-    outline: none;
+.bg-n1 {
+	background-color: var(--n1);
 }
 
-body {
-    padding: 16px;
-    background-color: var(--n1);
-    color: var(--t0);
-    font-family: "Inter", sans-serif;
-    min-width: 300px;
+.text-t0 {
+	color: var(--t0);
 }
 
-#no-session-page,
-#not-in-youtube-music-page,
-#no-track-page,
-#track-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-items: center;
+.p-16 {
+	padding: 16px;
 }
 
-#no-session-page[hidden],
-#not-in-youtube-music-page[hidden],
-#no-track-page[hidden],
-#track-page[hidden],
-#track-header[hidden],
-#scroble-header[hidden] {
-    display: none;
+.mt-8 {
+	margin-top: 8px;
 }
 
-button {
-    padding: 12px;
-    border-radius: 999px;
-    outline: none;
-    border: none;
-    background-color: var(--red);
-    cursor: pointer;
+.mt-16 {
+	margin-top: 16px;
 }
 
+.w-100p {
+	width: 100%;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex-col {
+	flex-direction: column;
+}
+
+
+.line-clamp-1 {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.inset-x-0 {
+	left: 0;
+	right: 0;
+}
+
+.bottom-0 {
+	bottom: 0;
+}
+
+.center {
+	align-items: center;
+	justify-content: center;
+}
+
+button,
+button:active,
 button:focus {
-    outline: none;
+	border: none;
+	outline: 2px solid inherit;
+	cursor: pointer;
 }
 
 button:hover {
-    opacity: 0.9;
+	opacity: 0.90;
 }
 
-#artwork {
-    outline: none;
-    border-radius: 8px;
-    width: 256px;
+.danger-button {
+	background-color: var(--red);
+	color: var(--n1);
+	padding: 8px;
+	border-radius: 99px;
 }
 
-p {
-    margin: 0;
+.main-button, #open-settings {
+	background-color: var(--yellow);
+	color: var(--n1);
+	padding: 8px;
+	border-radius:99px;
 }
 
-#title {
-    margin-top: 8px !important;
-    margin-bottom: 8px !important;
-    font-weight: 600;
-    font-size: 1.25rem;
+.warning-text {
+	background-color: var(--orange);
+	padding: 12px;
+	color: var(--n1);
+	border-radius: 999px;
 }
 
-#track-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    width: 100%;
+#track-page {
+	background-size: cover;
+	background-position: center;
+	flex-shrink: 0;
+	border-radius: 16px;
+	overflow: clip;
 }
 
-#scrobble-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.content {
+	padding: 8px;
+	backdrop-filter: blur(16px);
+	background-color: rgba(0, 0, 0, 0.6);
+	height: 100%;
 }
 
-#scrobble-button , #settings-button{
-    background: none;
-    padding: 0px;
-    margin-left: 8px;
-}
-
-#unauthorize-button, #authorize-button, #open-settings{
-    margin-top: 8px;
+#scrobble-button:hover, #settings-button:hover{
+	background-color: var(--n3) !important;
 }

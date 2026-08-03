@@ -8,42 +8,82 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <div id="no-session-page" hidden>
-        <img src="icons/logo.svg" height="64" alt="Logo">
+<body class="bg-n1 text-t0" style="min-width: 200px;">
+    <div id="no-session-page" class="p-16" hidden>
+        <div class="flex center">
+            <img src="icons/logo.svg" height="64" alt="Logo">
+        </div>
         <p>You are not connected to Last FM</p>
-        <button id="open-settings">Open Settings</button>
+        <div style="display: flex; justify-content: center;">
+        <button style="margin-top: 8px;" id="open-settings">Open Settings</button>
+        </div>
     </div>
 
-    <div id="not-in-youtube-music-page" hidden>
-        <img src="icons/logo.svg" height="64" alt="Logo">
-        <p>To see the current track open the extension in Youtube Music</p>
+    <div id="not-in-youtube-music-page" class="p-16" hidden>
+        <div class="flex center">
+            <img src="icons/logo.svg" height="64" alt="Logo">
+        </div>
+        <p class="mt-8 warning-text">To see the current track open the extension in Youtube Music</p>
     </div>
 
-    <div id="no-track-page" hidden>
-        <img src="icons/logo.svg" height="64" alt="Logo">
-        <p>No track is playing right now</p>
+    <div id="no-track-page" class="p-16" hidden>
+        <div class="flex center">
+            <img src="icons/logo.svg" height="64" alt="Logo">
+        </div>
+
+        <p class="mt-8 warning-text">No track is playing right now</p>
     </div>
 
-    <div id="track-page" hidden>
-        <div id="track-header">
-            <button id="settings-button">
-                <img src="icons/settings.svg" height="32">
-            </button>
-            <div id="scrobble-header">
-                <p id="scrobble-state">Scrobbling</p>
+    <div id="track-page" style="max-width: calc(8px + 8px + 320px);" hidden>
+        <div class="content">
+            <img id="artwork" src=""
+                style="width: 320px; aspect-ratio: 1 / 1; border-radius: 12px; object-fit: contain;">
 
-                <button id="scrobble-button">
-                    <img id="scrobble-icon" src="icons/scrobbling.svg" height="32">
+            <div class="fit">
+                <p id="title" class="line-clamp-1" style="font-weight: 600;">Track Title</p>
+                <p id="album-artist" class="line-clamp-1" style="font-size: 0.9rem;">Track Artist - Track Album</p>
+            </div>
+
+            <div style="margin-top: 16px; display: flex; align-items: center;">
+                <button id="scrobble-button"
+                    style="display: flex; align-items: center; background: none; color: var(--t0); border-radius: 99px; padding: 8px;">
+                    <svg id="scrobble-icon" width="24" height="24" viewBox="0 0 256 256" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1_659)">
+                            <path d="M128 38L128 128" stroke="currentColor" stroke-width="16" stroke-linecap="round" />
+                            <path
+                                d="M90.5 54C20.4514 83.352 22.2203 183.207 93.2646 210.06L96.7666 211.384C116.55 218.861 138.403 218.741 158.103 211.046L162.774 209.221C232.477 181.993 234.512 84.1009 166 54"
+                                stroke="currentColor" stroke-width="16" stroke-linecap="round" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1_659">
+                                <rect width="256" height="256" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+
+                    <p id="scrobble-state" style="margin-left: 4px;"></p>
                 </button>
+
+                <div style="flex-grow: 1;"></div>
+
+                <button id="settings-button" style="background: none; padding: 8px; border-radius: 99px; margin: 0px;">
+                    <svg style="cursor: pointer;" width="24" height="24" viewBox="0 0 256 256" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M105.805 40.1807C117.744 27.1742 138.257 27.1742 150.196 40.1807C156.147 46.663 164.646 50.2196 173.44 49.917C190.922 49.3156 205.289 63.6359 204.709 81.1182L204.682 81.9551C204.388 90.7966 207.895 99.3518 214.304 105.45C227.184 117.707 227.184 138.293 214.304 150.55C207.895 156.648 204.388 165.203 204.682 174.045L204.709 174.882C205.289 192.364 190.922 206.684 173.44 206.083C164.646 205.78 156.147 209.337 150.196 215.819C138.257 228.826 117.744 228.826 105.805 215.819C99.8542 209.337 91.3547 205.781 82.5605 206.083C65.0789 206.685 50.7109 192.364 51.291 174.882L51.3183 174.045C51.6118 165.203 48.1048 156.648 41.6963 150.55C28.8158 138.293 28.8158 117.707 41.6963 105.45C48.1048 99.3518 51.6118 90.7967 51.3183 81.9551L51.291 81.1182C50.7109 63.6359 65.0789 49.3155 82.5605 49.917C91.3547 50.2195 99.8542 46.6631 105.805 40.1807ZM128 98C111.432 98.0002 98 111.432 98 128C98 144.568 111.432 158 128 158C144.569 158 158 144.569 158 128C158 111.431 144.569 98 128 98Z"
+                            fill="var(--t0)" />
+                    </svg>
+                </button>
+
+
             </div>
         </div>
-        <img id="artwork">
-        <p id="title">Track Title</p>
-        <p id="album-artist">Track Artist - Track Album</p>
     </div>
 
     <script src="popup.js"></script>
 </body>
+
+
 
 </html>

@@ -10,7 +10,7 @@
     <title>YT Music FM</title>
 </head>
 
-<body>
+<body class="bg-n1 text-t0 p-16">
     <h1>Settings</h1>
     <h3>Last FM Connection</h3>
 
@@ -18,19 +18,19 @@
         <p id="connect-as">The extensions requires you to connect to Last FM.
             <br>
         </p>
-        <button id="authorize-button">Connect Last FM</button>
+        <button id="authorize-button" class="mt-8 main-button">Connect Last FM</button>
     </div>
 
     <div id="logged-in-div" hidden>
         <p id="connect-as">You are connected as <b><span id="username"></span></b></p>
-        <button id="unauthorize-button">Disconnect</button>
+        <button id="unauthorize-button" class="mt-8 danger-button">Disconnect</button>
     </div>
 
-    <h1>About</h1>
+    <h1 class="mt-16">About</h1>
     <h3>Version</h3>
-    <p>0.0.4</p>
+    <p>0.0.6</p>
 
-    <h3>Repository</h3>
+    <h3 class="mt-8">Repository</h3>
     <a href="https://github.com/lighttigerxiv/yt-music-fm">https://github.com/lighttigerxiv/yt-music-fm</a>
 
     <script src="env.js"></script>

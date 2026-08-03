@@ -62,6 +62,7 @@ async function loadSession() {
 
         trackPage.hidden = false;
 
+        document.getElementById("track-page").style.backgroundImage = `url(${response.artwork})`;
         document.getElementById("artwork").src = response.artwork;
         document.getElementById("title").textContent = response.title;
         document.getElementById("album-artist").textContent = response.album === "" ? response.artist : `${response.artist} - ${response.album}`;
@@ -76,12 +77,12 @@ async function loadScrobble() {
     const scrobbleState = document.getElementById("scrobble-state");
 
     if (activateScrobble) {
-        scrobbleIcon.src = "icons/scrobbling.svg";
+        scrobbleIcon.style.color = "var(--green)";
         scrobbleState.textContent = "Scrobbling";
         return;
     }
 
-    scrobbleIcon.src = "icons/no-scrobbling.svg";
+    scrobbleIcon.style.color = "var(--red)";
     scrobbleState.textContent = "Not Scrobbling";
 
     await chrome.storage.local.set({ activateScrobble: false });
