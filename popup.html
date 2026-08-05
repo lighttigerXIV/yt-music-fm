@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=block" rel="stylesheet">
 </head>
 
-<body class="bg-n1 text-t0" style="min-width: 200px;">
-    <div id="no-session-page" class="p-16" hidden>
+<body class="bg-n1 text-t0" style="min-width: 300px;">
+    <div id="no-session-page" style="text-align: center;" class="p-16" hidden>
         <div class="flex center">
             <img src="icons/logo.svg" height="64" alt="Logo">
         </div>
@@ -20,14 +20,14 @@
         </div>
     </div>
 
-    <div id="not-in-youtube-music-page" class="p-16" hidden>
+    <div id="not-in-youtube-music-page" style="min-width: 400px; text-align: center;" class="p-16" hidden>
         <div class="flex center">
             <img src="icons/logo.svg" height="64" alt="Logo">
         </div>
         <p class="mt-8 warning-text">To see the current track open the extension in Youtube Music</p>
     </div>
 
-    <div id="no-track-page" class="p-16" hidden>
+    <div id="no-track-page" style="text-align: center;" class="p-16" hidden>
         <div class="flex center">
             <img src="icons/logo.svg" height="64" alt="Logo">
         </div>
@@ -41,8 +41,8 @@
                 style="width: 320px; aspect-ratio: 1 / 1; border-radius: 12px; object-fit: contain;">
 
             <div class="fit" style="margin-top: 8px;">
-                <p id="title" class="line-clamp-1" style="font-weight: 600;">Track Title</p>
-                <p id="album-artist" class="line-clamp-1" style="font-size: 0.9rem;">Track Artist - Track Album</p>
+                <p id="title" style="font-weight: 600; flex-shrink: 0; font-size: 1rem;">Track Title</p>
+                <p id="album-artist" style="font-size: 0.8rem;">Track Artist - Track Album</p>
             </div>
 
             <div style="margin-top: 8px; display: flex; align-items: center; background-color: var(--n1); border-radius: 12px; padding: 4px;">
