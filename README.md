@@ -5,7 +5,7 @@
   # YouTube Music FM 
 
   <div>
-    <img src="./readme-images/ss.png" height="256">
+    <img src="./readme-images/ss.png" height="512">
   </div>
 </div>
 
