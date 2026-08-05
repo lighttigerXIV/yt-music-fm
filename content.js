@@ -4,6 +4,8 @@ let scrobbled = false;
 let nowPlayed = false;
 let activateScrobble = true;
 
+let nowPlayingTimeout = null;
+
 async function loadSession() {
 	const { token, username } = await chrome.storage.local.get(["token", "username"]);
 
@@ -83,12 +85,16 @@ const barObserver = new MutationObserver(async () => {
 	if (!nowPlayed && hasChanged) {
 		if (!activateScrobble) { return; }
 
-		nowPlayed = true;
+		clearTimeout(nowPlayingTimeout);
 
-		chrome.runtime.sendMessage({
-			action: "nowPlaying",
-			track: track,
-		});
+		nowPlayingTimeout = setTimeout(async () => {
+			nowPlayed = true;
+
+			chrome.runtime.sendMessage({
+				action: "nowPlaying",
+				track: track,
+			});
+		}, 5000);
 	}
 });
 
