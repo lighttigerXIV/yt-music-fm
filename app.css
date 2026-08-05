@@ -120,6 +120,8 @@ button:hover {
 	flex-shrink: 0;
 	border-radius: 16px;
 	overflow: clip;
+	outline: none;
+	border: none;
 }
 
 .content {

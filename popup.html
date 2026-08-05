@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="app.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=block" rel="stylesheet">
 </head>
 
 <body class="bg-n1 text-t0" style="min-width: 200px;">
@@ -15,7 +16,7 @@
         </div>
         <p>You are not connected to Last FM</p>
         <div style="display: flex; justify-content: center;">
-        <button style="margin-top: 8px;" id="open-settings">Open Settings</button>
+            <button style="margin-top: 8px;" id="open-settings">Open Settings</button>
         </div>
     </div>
 
@@ -39,7 +40,7 @@
             <img id="artwork" src=""
                 style="width: 320px; aspect-ratio: 1 / 1; border-radius: 12px; object-fit: contain;">
 
-            <div class="fit">
+            <div class="fit" style="margin-top: 8px;">
                 <p id="title" class="line-clamp-1" style="font-weight: 600;">Track Title</p>
                 <p id="album-artist" class="line-clamp-1" style="font-size: 0.9rem;">Track Artist - Track Album</p>
             </div>
@@ -67,7 +68,8 @@
 
                 <div style="flex-grow: 1;"></div>
 
-                <button id="settings-button" style="background: none; padding: 8px; border-radius: 99px; margin: 0px;">
+                <button id="settings-button"
+                    style="background: none; padding: 8px; border-radius: 99px; margin: 0px; height: fit-content;">
                     <svg style="cursor: pointer;" width="24" height="24" viewBox="0 0 256 256" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
