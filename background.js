@@ -1,13 +1,13 @@
 if (typeof importScripts === 'function') {
-    importScripts("env.js", "lastfm.js", "session.js");
+	importScripts("env.js", "lastfm.js");
 }
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === "nowPlaying") {
-        setNowPlaying(message.track).catch(console.error);
-    }
-    
-    if (message.action === "scrobble") {
-        scrobble(message.track).catch(console.error);
-    }
+chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
+	if (message.action === "nowPlaying") {
+		sendNowPlayingRequest(message.title, message.artist, message.album).catch(console.error);
+	}
+
+	if (message.action === "scrobble") {
+		sendScrobbleRequest(message.title, message.artist, message.album).catch(console.error);
+	}
 });

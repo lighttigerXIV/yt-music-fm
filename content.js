@@ -1,125 +1,31 @@
-let track = new Track("", "", "", "", false, undefined);
-let session = new Session(undefined, undefined);
-let scrobbled = false;
-let nowPlayed = false;
-let activateScrobble = true;
+// ----------------------------- State ----------------------------------------------
+// Settings
+let lastfmUsername = "";
+let lastfmSessionKey = ""
+let scrobble = false;
 
-let nowPlayingTimeout = null;
+// Session
+let loggedIn = false;
 
-async function loadSession() {
-	const { token, username } = await chrome.storage.local.get(["token", "username"]);
+// Last FM
+let sentNowPlaying = false;
+let sentScrobble = false;
+let secondsPlayed = 0;
 
-	session = new Session(token, username);
-}
+// Track
+let title = "";
+let artist = "";
+let album = "";
+let coverURL = "";
 
-loadSession();
-
-chrome.storage.local.get(["activateScrobble"]).then((result) => {
-	activateScrobble = result.activateScrobble !== false;
-});
-
-chrome.storage.onChanged.addListener((changes, area) => {
-	if (area === 'local' && changes.activateScrobble) {
-		activateScrobble = changes.activateScrobble.newValue;
-	}
-});
-
-const barObserver = new MutationObserver(async () => {
-	if (!session.loggedIn) { return; }
-
-	const metadata = navigator.mediaSession.metadata;
-	const playing = navigator.mediaSession.playbackState === "playing";
-
-	if (!metadata) { return; }
-
-	const metaTitle = metadata.title;
-	const metaArtist = metadata.artist;
-	const metaAlbum = metadata.album;
-	const metaArtwork = metadata.artwork[metadata.artwork.length - 1].src;
-
-	if (metaTitle === "" || metaArtist === "") { return; }
-
-	const domTime = document.querySelector("ytmusic-player-bar .time-info")?.textContent.trim();
-
-	if (!domTime) return;
-
-	const [currentStr, lengthStr] = domTime?.split("/").map(s => s.trim()) ?? [];
-
-	const hasChanged = metaTitle !== track.title || metaArtist !== track.artist || metaAlbum != track.album || playing != track.playing;
-	const changedPlayState = metaTitle === track.title || metaArtist === track.artist || metaAlbum == track.album;
-
-	const trackLengthSeconds = timeToSeconds(lengthStr);
-	const currentSeconds = timeToSeconds(currentStr);
-
-	const hasMinLength = trackLengthSeconds > 30
-	const hasScrobbledEnough = currentSeconds >= trackLengthSeconds / 2 || currentSeconds > 4 * 60
-	const canScrobble = hasMinLength && hasScrobbledEnough && !scrobbled
-
-	if (canScrobble) {
-		scrobbled = true;
-
-		if (!activateScrobble) { return; }
-
-		chrome.runtime.sendMessage({
-			action: "scrobble",
-			track: track,
-		});
-	}
-
-	if (hasChanged) {
-		if (changedPlayState && !playing) { return; }
-
-		nowPlayed = false;
-		scrobbled = false;
-
-		track.title = metadata.title;
-		track.artist = metadata.artist;
-		track.album = metadata.album;
-		track.length = trackLengthSeconds;
-		track.playing = playing;
-		track.artwork = metaArtwork;
-
-		// Tell poupup that track has changed
-		chrome.runtime.sendMessage({
-			action: "trackChanged"
-		});
-
-		console.log("New Track:", track);
-	}
-
-	if (!nowPlayed && hasChanged) {
-		if (!activateScrobble) { return; }
-
-		clearTimeout(nowPlayingTimeout);
-
-		nowPlayingTimeout = setTimeout(async () => {
-			nowPlayed = true;
-
-			console.log("Now Playing", track);
-
-			// Send message to background to then use LAST FM API to change the now playing track
-			chrome.runtime.sendMessage({
-				action: "nowPlaying",
-				track: track,
-			});
-		}, 5000);
-	}
-});
-
-barObserver.observe(document.body, {
-	childList: true,
-	subtree: true,
-	characterData: true,
-});
-
+// ------------------------------ Listeners ----------------------------------------
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-	if (message.action === "getCurrentTrack") {
+	if (message.action === "getTrack") {
 		sendResponse({
-			title: track.title,
-			artist: track.artist,
-			album: track.album,
-			playing: track.playing,
-			artwork: track.artwork
+			title: title,
+			artist: artist,
+			album: album,
+			coverURL: coverURL
 		});
 	}
 
@@ -131,18 +37,123 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 		});
 	}
 
-	if (message.action === "scrobbleReEnabled") {
-		nowPlayed = true;
+	if (message.action === "changedScrobble") {
+		chrome.storage.local.get(["scrobble"]).then((result) => {
+			scrobble = result.scrobble !== false;
 
-		chrome.runtime.sendMessage({
-			action: "nowPlaying",
-			track: track,
+			console.debug("Scrobble changed to: ", scrobble);
+
+			if (scrobble) {
+				sendNowPlaying();
+			}
 		});
 	}
 });
 
+function sendNowPlaying() {
+
+}
+
+let nowPlayingTimeout = null;
+
+async function loadScrobbling() {
+	setInterval(async () => {
+		if (!loggedIn) { return; }
+
+		const metadata = navigator.mediaSession.metadata;
+
+		if (!metadata) { return; }
+
+
+		const metaTitle = metadata.title;
+		const metaArtist = metadata.artist;
+		const metaAlbum = metadata.album;
+		const metaCoverURL = metadata.artwork[metadata.artwork.length - 1].src;
+		const domTime = document.querySelector("ytmusic-player-bar .time-info")?.textContent.trim();
+
+		if (metaTitle === "" || metaArtist === "" || !domTime) { return; }
+
+		const [currentStr, lengthStr] = domTime?.split("/").map(s => s.trim()) ?? [];
+		const trackLengthSeconds = timeToSeconds(lengthStr);
+		const currentSeconds = timeToSeconds(currentStr);
+
+		const isNewTrack = metaTitle !== title || metaArtist !== artist || metaAlbum !== album
+
+		const canSendScrobbleRequest = trackLengthSeconds > 30 // Tracks has at least 30 seconds
+			&& (secondsPlayed >= trackLengthSeconds / 2 || currentSeconds > 4 * 60) // Played enough of the track or podcast (half the track or 4 minutes)
+			&& !sentScrobble // Hasn't sent the scrobble request
+
+		if (canSendScrobbleRequest) {
+			sentScrobble = true;
+
+			if (!scrobble) { return; }
+
+			chrome.runtime.sendMessage({
+				action: "scrobble",
+				title: title,
+				artist: artist,
+				album: album,
+			});
+
+
+			console.debug(`SCROBBLED TRACK:\nTitle: ${title}\nArtist: ${artist}\nAlbum: ${album}`);
+		}
+
+
+		if (isNewTrack) {
+			sentNowPlaying = false;
+			sentScrobble = false;
+			secondsPlayed = 0;
+
+			title = metaTitle;
+			artist = metaArtist;
+			album = metaAlbum;
+			coverURL = metaCoverURL;
+
+			// Tell poupup that track has changed
+			chrome.runtime.sendMessage({
+				action: "trackChanged"
+			});
+
+			console.debug(`NEW TRACK:\nTitle: ${title}\nArtist: ${artist}\nAlbum: ${album}`);
+		}
+
+		secondsPlayed++;
+
+		if (!sentNowPlaying && secondsPlayed >= 5) {
+			if (!scrobble) { return; }
+
+			sentNowPlaying = true;
+
+			// Send message to background to then use LAST FM API to change the now playing track
+			chrome.runtime.sendMessage({
+				action: "nowPlaying",
+				title: title,
+				artist: artist,
+				album: album,
+			});
+
+
+			console.debug(`NOW PLAYING TRACK:\nTitle: ${title}\nArtist: ${artist}\nAlbum: ${album}`);
+		}
+	}, 1000)
+}
+
+async function loadSettings() {
+	const { sessionKey: lSessionKey, username: lUsername, scrobble: lScrobble } = await chrome.storage.local.get(["sessionKey", "username", "scrobble"]);
+
+	lastfmSessionKey = lSessionKey;
+	lastfmUsername = lUsername;
+	scrobble = lScrobble !== false;
+
+	loggedIn = lastfmSessionKey !== undefined && lastfmUsername !== undefined;
+
+	console.debug("[session key, username, scrobble]", lSessionKey, lastfmUsername, scrobble);
+}
+
 function timeToSeconds(timeStr) {
 	const parts = timeStr.split(":").map(Number);
+
 	if (parts.length === 2) {
 		const [min, sec] = parts;
 		return min * 60 + sec;
@@ -150,5 +161,10 @@ function timeToSeconds(timeStr) {
 		const [h, min, sec] = parts;
 		return h * 3600 + min * 60 + sec;
 	}
+
 	return 0;
 }
+
+
+loadSettings();
+loadScrobbling();
