@@ -95,6 +95,8 @@ const barObserver = new MutationObserver(async () => {
 		nowPlayingTimeout = setTimeout(async () => {
 			nowPlayed = true;
 
+			console.log("Now Playing", track);
+
 			// Send message to background to then use LAST FM API to change the now playing track
 			chrome.runtime.sendMessage({
 				action: "nowPlaying",

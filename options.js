@@ -6,15 +6,15 @@ async function init() {
     let loggedInDiv = document.getElementById("logged-in-div");
     let usernameDiv = document.getElementById("username");
 
+    noLoginDiv.style.display = "none"
+    loggedInDiv.style.display = "none"
+    usernameDiv.textContent = ""
 
     if (loggedIn) {
-        noLoginDiv.hidden = true;
-        loggedInDiv.hidden = false;
+        loggedInDiv.style.display = "flex";
         usernameDiv.textContent = username;
     } else {
-        noLoginDiv.hidden = false;
-        loggedInDiv.hidden = true;
-        usernameDiv.textContent = "";
+        noLoginDiv.style.display = "flex";
     }
 }
 
