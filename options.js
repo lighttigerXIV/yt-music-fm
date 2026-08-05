@@ -5,6 +5,7 @@ async function init() {
     let noLoginDiv = document.getElementById("no-login-div");
     let loggedInDiv = document.getElementById("logged-in-div");
     let usernameDiv = document.getElementById("username");
+    let versionDiv = document.getElementById("version");
 
     noLoginDiv.style.display = "none"
     loggedInDiv.style.display = "none"
@@ -16,6 +17,8 @@ async function init() {
     } else {
         noLoginDiv.style.display = "flex";
     }
+
+    versionDiv.textContent = chrome.runtime.getManifest().version;
 }
 
 init();
