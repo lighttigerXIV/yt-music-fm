@@ -9,7 +9,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "yt-music-fm@afonseca.dev",
+      "id": "yt-music-fm-public@afonseca.dev",
       "data_collection_permissions": {
         "required": ["authenticationInfo"],
         "optional": []
@@ -17,7 +17,7 @@
     }
   },
   "options_page": "options.html",
-  "permissions": ["storage", "activeTab", "storage"],
+  "permissions": ["storage", "activeTab"],
   "content_scripts": [
     {
       "matches": ["https://music.youtube.com/*"],
@@ -25,7 +25,7 @@
     }
   ],
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["env.js", "lastfm.js", "background.js"]
   },
   "host_permissions": ["https://ws.audioscrobbler.com/*"],
   "action": {

@@ -21,11 +21,11 @@
   "content_scripts": [
     {
       "matches": ["https://music.youtube.com/*"],
-      "js": ["env.js", "lastfm.js", "session.js", "track.js", "content.js"]
+      "js": ["env.js", "lastfm.js", "content.js"]
     }
   ],
   "background": {
-    "scripts": ["env.js", "lastfm.js", "session.js", "background.js"]
+    "scripts": ["env.js", "lastfm.js", "background.js"]
   },
   "host_permissions": ["https://ws.audioscrobbler.com/*"],
   "action": {
