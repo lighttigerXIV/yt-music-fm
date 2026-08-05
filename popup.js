@@ -88,5 +88,11 @@ async function loadScrobble() {
     await chrome.storage.local.set({ activateScrobble: false });
 }
 
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+    if (message.action === "trackChanged") {
+        loadSession();
+    }
+});
+
 loadSession();
 loadScrobble();

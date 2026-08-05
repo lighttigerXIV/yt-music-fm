@@ -79,6 +79,11 @@ const barObserver = new MutationObserver(async () => {
 		track.playing = playing;
 		track.artwork = metaArtwork;
 
+		// Tell poupup that track has changed
+		chrome.runtime.sendMessage({
+			action: "trackChanged"
+		});
+
 		console.log("New Track:", track);
 	}
 
@@ -90,6 +95,7 @@ const barObserver = new MutationObserver(async () => {
 		nowPlayingTimeout = setTimeout(async () => {
 			nowPlayed = true;
 
+			// Send message to background to then use LAST FM API to change the now playing track
 			chrome.runtime.sendMessage({
 				action: "nowPlaying",
 				track: track,
