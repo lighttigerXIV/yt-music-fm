@@ -21,7 +21,7 @@
   "content_scripts": [
     {
       "matches": ["https://music.youtube.com/*"],
-      "js": ["env.js", "lastfm.js", "session.js", "track.js", "content.js"]
+      "js": ["env.js", "lastfm.js", "content.js"]
     }
   ],
   "background": {
