@@ -73,14 +73,13 @@ async function loadScrobbling() {
 
 		if (metaTitle === "" || metaArtist === "" || !domTime) { return; }
 
-		const [currentStr, lengthStr] = domTime?.split("/").map(s => s.trim()) ?? [];
-		const trackLengthSeconds = timeToSeconds(lengthStr);
-		const currentSeconds = timeToSeconds(currentStr);
+		const [_currentStr, lengthStr] = domTime?.split("/").map(s => s.trim()) ?? [];
+		const trackDurationSeconds = timeToSeconds(lengthStr);
 
 		const isNewTrack = metaTitle !== title || metaArtist !== artist || metaAlbum !== album
 
-		const canSendScrobbleRequest = trackLengthSeconds > 30 // Tracks has at least 30 seconds
-			&& (secondsPlayed >= trackLengthSeconds / 2 || currentSeconds > 4 * 60) // Played enough of the track or podcast (half the track or 4 minutes)
+		const canSendScrobbleRequest = trackDurationSeconds > 30 // Tracks has at least 30 seconds
+			&& (secondsPlayed >= trackDurationSeconds / 2 || secondsPlayed > 4 * 60) // Played enough of the track or podcast (half the track or 4 minutes)
 			&& !sentScrobble // Hasn't sent the scrobble request
 
 		if (canSendScrobbleRequest) {
@@ -93,6 +92,7 @@ async function loadScrobbling() {
 				title: title,
 				artist: artist,
 				album: album,
+				duration: trackDurationSeconds
 			});
 
 
@@ -131,6 +131,7 @@ async function loadScrobbling() {
 				title: title,
 				artist: artist,
 				album: album,
+				duration: trackDurationSeconds
 			});
 
 

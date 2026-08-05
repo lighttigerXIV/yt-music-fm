@@ -4,10 +4,10 @@ if (typeof importScripts === 'function') {
 
 chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
 	if (message.action === "nowPlaying") {
-		sendNowPlayingRequest(message.title, message.artist, message.album).catch(console.error);
+		sendNowPlayingRequest(message.title, message.artist, message.album, message.duration).catch(console.error);
 	}
 
 	if (message.action === "scrobble") {
-		sendScrobbleRequest(message.title, message.artist, message.album).catch(console.error);
+		sendScrobbleRequest(message.title, message.artist, message.album, message.duration).catch(console.error);
 	}
 });

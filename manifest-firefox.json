@@ -9,7 +9,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "yt-music-fm@afonseca.dev",
+      "id": "yt-music-fm-public@afonseca.dev",
       "data_collection_permissions": {
         "required": ["authenticationInfo"],
         "optional": []

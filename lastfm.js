@@ -70,7 +70,7 @@ function md5(string) {
 	return toHex(a0) + toHex(b0) + toHex(c0) + toHex(d0);
 }
 
-async function sendScrobbleRequest(title, artist, album) {
+async function sendScrobbleRequest(title, artist, album, duration) {
 	const { sessionKey } = await chrome.storage.local.get("sessionKey");
 
 	if (!sessionKey) { throw "No Session Key" };
@@ -82,6 +82,7 @@ async function sendScrobbleRequest(title, artist, album) {
 		artist: artist,
 		track: title,
 		album: album,
+		duration: duration,
 		timestamp: new Date().getTime() / 1000
 	}
 
@@ -100,7 +101,7 @@ async function sendScrobbleRequest(title, artist, album) {
 	});
 }
 
-async function sendNowPlayingRequest(title, artist, album) {
+async function sendNowPlayingRequest(title, artist, album, duration) {
 	const { sessionKey } = await chrome.storage.local.get("sessionKey");
 
 	if (!sessionKey) { throw "No Session Key" };
@@ -112,6 +113,7 @@ async function sendNowPlayingRequest(title, artist, album) {
 		artist: artist,
 		track: title,
 		album: album,
+		duration: duration,
 		timestamp: new Date().getTime() / 1000
 	}
 
